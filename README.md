@@ -1,1 +1,1 @@
-# trading-pipeline
+# intern-project

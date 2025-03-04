@@ -1,0 +1,31 @@
+name: CI - Cpp Unit Tests
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    cpp-unit-tests:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.12'
+        
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip
+            pipx install conan
+            conan profile detect
+            bash < .github/scripts/conan-profile.sh
+            pipx install ninja
+
+        - name: Run unit tests
+          run: make cpptest
